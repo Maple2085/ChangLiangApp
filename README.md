@@ -3,7 +3,7 @@
 一个纯 Kotlin / 无第三方依赖的 Android 小工具。通过一个 **1×1 透明悬浮窗** 让屏幕保持点亮，切换到任何应用都有效；支持定时自动结束，适合系统息屏上限只有 10 分钟、但需要长时间亮屏的场景。
 
 - 版本：**1.1.3**（versionCode 7）· 黑红赛车仪表盘 + 自定义挡
-- 安装包：[从 Releases 下载](https://github.com/Maple2085/ChangLiangApp/releases)；也可按下文从源码构建。
+- 安装包：[下载 1.1.3 APK](https://github.com/Maple2085/ChangLiangApp/releases/download/v1.1.3/ChangLiang.apk)（[查看全部 Releases](https://github.com/Maple2085/ChangLiangApp/releases)）
 - 安装环境：Android 8.0+（minSdk 26）
 - 用户界面：黑红转速表、挡位条、点火键、赛前检查灯；首次打开播放入场动画
 
