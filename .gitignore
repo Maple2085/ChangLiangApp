@@ -1,0 +1,22 @@
+# Local signing material
+*.keystore
+*.jks
+*.pem
+*.key
+
+# APKs and local build outputs
+*.apk
+*.ap_
+/gen/
+/obj/
+/obj2/
+/dex/
+/r.jar
+/app.jar
+/.gradle/
+/app/build/
+
+# Machine-specific IDE configuration
+/local.properties
+/.idea/
+*.iml

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg">#050607</color>
+    <color name="panel">#0D0F13</color>
+    <color name="line">#22262E</color>
+    <color name="red">#E10600</color>
+    <color name="red_hot">#FF3B30</color>
+    <color name="white">#F4F1EA</color>
+    <color name="steel">#7C828C</color>
+    <color name="steel_dim">#3A3F47</color>
+    <color name="icon_bg">#08090B</color>
+    <color name="notification_accent">#E10600</color>
+</resources>

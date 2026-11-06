@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">常亮</string>
+    <string name="brand">常亮</string>
+    <string name="brand_sub">KEEP AWAKE</string>
+
+    <string name="gear_title">GEAR · 常亮时长</string>
+    <string name="settings">设置</string>
+    <string name="settings_title">SETTINGS · 设置</string>
+    <string name="set_intro">入场动画</string>
+    <string name="set_intro_desc">下次打开时重新播放一次，播完自动关闭</string>
+    <string name="set_overlay">悬浮窗权限</string>
+    <string name="set_notify">通知权限</string>
+    <string name="set_about">关于</string>
+    <string name="close">关闭</string>
+    <string name="pit_title">PIT BOARD · 自定义时长</string>
+
+    <string name="channel_name">常亮运行状态</string>
+    <string name="channel_desc">显示剩余时间与熄火按钮</string>
+    <string name="notif_running_title">STINT · 屏幕常亮中</string>
+    <string name="notif_always_text">NO LIMIT · 直到你手动熄火</string>
+    <string name="notif_timed_text">到 %1$s 自动熄火</string>
+    <string name="notif_stop">熄火</string>
+    <string name="notif_subtext">透明悬浮窗运行中</string>
+    <string name="notif_done_title">STINT COMPLETE · 常亮已结束</string>
+    <string name="notif_done_text">屏幕已恢复系统休眠，点按可再次点火</string>
+</resources>

@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg">
+
+    <com.changliang.screenon.CarbonBackgroundView
+        android:id="@+id/bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <LinearLayout
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="10dp"
+                android:paddingBottom="6dp">
+
+                <View
+                    android:id="@+id/accent"
+                    android:layout_width="4dp"
+                    android:layout_height="34dp"
+                    android:layout_marginEnd="12dp"
+                    android:background="@drawable/bg_accent" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-condensed"
+                        android:includeFontPadding="false"
+                        android:letterSpacing="0.06"
+                        android:text="@string/brand"
+                        android:textColor="@color/white"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/subtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:includeFontPadding="false"
+                        android:letterSpacing="0.32"
+                        android:text="@string/brand_sub"
+                        android:textColor="@color/red_hot"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/settingsBtn"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:background="@drawable/bg_icon_btn"
+                    android:contentDescription="@string/settings"
+                    android:src="@drawable/ic_gear" />
+            </LinearLayout>
+
+            <com.changliang.screenon.GaugeView
+                android:id="@+id/gauge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp" />
+
+            <LinearLayout
+                android:id="@+id/telltales"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/ttOverlay"
+                    style="@style/Telltale"
+                    android:text="OVERLAY" />
+
+                <TextView
+                    android:id="@+id/ttNotify"
+                    style="@style/Telltale"
+                    android:layout_marginStart="18dp"
+                    android:text="NOTIFY" />
+
+                <TextView
+                    android:id="@+id/ttEngine"
+                    style="@style/Telltale"
+                    android:layout_marginStart="18dp"
+                    android:text="ENGINE" />
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:minHeight="10dp" />
+
+            <TextView
+                android:id="@+id/gearHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-condensed"
+                android:letterSpacing="0.2"
+                android:text="@string/gear_title"
+                android:textColor="@color/steel"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <com.changliang.screenon.GearStripView
+                android:id="@+id/gears"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.changliang.screenon.IgnitionButton
+                android:id="@+id/ignition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp" />
+
+            <TextView
+                android:id="@+id/footer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:lineSpacingExtra="2dp"
+                android:minLines="2"
+                android:textColor="@color/steel"
+                android:textSize="11sp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- 设置面板 -->
+    <FrameLayout
+        android:id="@+id/settingsLayer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <View
+            android:id="@+id/scrim"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#B3000000" />
+
+        <LinearLayout
+            android:id="@+id/sheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/bg_sheet"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="20dp">
+
+            <View
+                android:layout_width="36dp"
+                android:layout_height="4dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_handle" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="18dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/bg_accent" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-condensed"
+                    android:letterSpacing="0.18"
+                    android:text="@string/settings_title"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/closeBtn"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_icon_btn"
+                    android:contentDescription="@string/close"
+                    android:src="@drawable/ic_close" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rowIntro"
+                style="@style/SheetRow"
+                android:layout_marginTop="16dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView style="@style/RowTitle" android:text="@string/set_intro" />
+                    <TextView style="@style/RowDesc" android:text="@string/set_intro_desc" />
+                </LinearLayout>
+
+                <com.changliang.screenon.ToggleView
+                    android:id="@+id/introToggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rowOverlay"
+                style="@style/SheetRow"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    style="@style/RowTitle"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/set_overlay" />
+
+                <TextView
+                    android:id="@+id/overlayState"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rowNotify"
+                style="@style/SheetRow"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    style="@style/RowTitle"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/set_notify" />
+
+                <TextView
+                    android:id="@+id/notifyState"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/SheetRow">
+
+                <TextView
+                    style="@style/RowTitle"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/set_about" />
+
+                <TextView
+                    android:id="@+id/aboutState"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="monospace"
+                    android:textColor="@color/steel"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+    <!-- 调表板：自定义时长 -->
+    <FrameLayout
+        android:id="@+id/pitLayer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <View
+            android:id="@+id/pitScrim"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#B3000000" />
+
+        <LinearLayout
+            android:id="@+id/pitSheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/bg_sheet"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="20dp">
+
+            <View
+                android:layout_width="36dp"
+                android:layout_height="4dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_handle" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="18dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/bg_accent" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-condensed"
+                    android:letterSpacing="0.18"
+                    android:text="@string/pit_title"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/pitClose"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_icon_btn"
+                    android:contentDescription="@string/close"
+                    android:src="@drawable/ic_close" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="14dp"
+                android:baselineAligned="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/pitValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:fontFeatureSettings="tnum"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/white"
+                    android:textSize="64sp" />
+
+                <TextView
+                    android:id="@+id/pitUnit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:letterSpacing="0.16"
+                    android:textColor="@color/steel"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/pitSub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:textColor="@color/steel"
+                android:textSize="12sp" />
+
+            <com.changliang.screenon.RulerView
+                android:id="@+id/ruler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <TextView android:id="@+id/pitMinus" style="@style/PitChip" android:layout_marginEnd="6dp" android:text="−5" />
+                <TextView android:id="@+id/pitQ1" style="@style/PitChip" android:layout_marginEnd="6dp" android:text="45M" />
+                <TextView android:id="@+id/pitQ2" style="@style/PitChip" android:layout_marginEnd="6dp" android:text="90M" />
+                <TextView android:id="@+id/pitQ3" style="@style/PitChip" android:layout_marginEnd="6dp" android:text="3H" />
+                <TextView android:id="@+id/pitQ4" style="@style/PitChip" android:layout_marginEnd="6dp" android:text="6H" />
+                <TextView android:id="@+id/pitPlus" style="@style/PitChip" android:text="+5" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/pitConfirm"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_confirm"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="center"
+                android:letterSpacing="0.1"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </FrameLayout>
+</FrameLayout>
