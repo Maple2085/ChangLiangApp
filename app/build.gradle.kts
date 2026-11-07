@@ -11,7 +11,7 @@ android {
         applicationId = "com.changliang.screenon"
         minSdk = 26
         targetSdk = 33
-        versionCode = 7
-        versionName = "1.1.3"
+        versionCode = 8
+        versionName = "1.1.4"
     }
 }

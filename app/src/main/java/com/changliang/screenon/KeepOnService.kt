@@ -1,11 +1,15 @@
 package com.changliang.screenon
 
+import android.app.AlarmManager
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.graphics.PixelFormat
 import android.os.Build
@@ -34,6 +38,10 @@ class KeepOnService : Service() {
     companion object {
         const val ACTION_START = "com.changliang.screenon.action.START"
         const val ACTION_STOP = "com.changliang.screenon.action.STOP"
+        /** 检查是否已到点：闹钟、界面都会发这个 */
+        const val ACTION_CHECK = "com.changliang.screenon.action.CHECK"
+        /** 醒着时的巡检间隔 */
+        private const val WATCH_MS = 10_000L
         const val EXTRA_MINUTES = "minutes"
 
         const val CHANNEL_ID = "keep_on_status"
@@ -91,6 +99,15 @@ class KeepOnService : Service() {
                 return START_NOT_STICKY
             }
 
+            ACTION_CHECK -> {
+                if (running) {
+                    finishByTimer()
+                    return START_STICKY
+                }
+                if (!restoreIfAlive()) { clearPersistedState(); stopSelf() }
+                return START_NOT_STICKY
+            }
+
             ACTION_START -> {
                 if (!Settings.canDrawOverlays(this)) {
                     stopEverything()
@@ -120,6 +137,8 @@ class KeepOnService : Service() {
 
     override fun onDestroy() {
         handler.removeCallbacksAndMessages(null)
+        cancelAlarm()
+        unregisterWake()
         removeOverlay()
         running = false
         alwaysOn = false
@@ -239,11 +258,58 @@ class KeepOnService : Service() {
         overlayView = null
     }
 
+    /**
+     * Handler 的延时按 uptime 计，CPU 休眠时会停；只靠它的话，锁屏一段时间后就会过点不熄火。
+     * 所以三条路一起：醒着时每 10 秒按真实时间巡检；亮屏/解锁/改时间时立刻检查；到点用系统闹钟唤醒检查。
+     */
     private fun scheduleFinish() {
         handler.removeCallbacks(finishRunnable)
         if (alwaysOn) return
         val delay = (endAt - System.currentTimeMillis()).coerceAtLeast(0L)
-        handler.postDelayed(finishRunnable, delay)
+        handler.postDelayed(finishRunnable, minOf(delay, WATCH_MS))
+        registerWake()
+        setAlarm()
+    }
+
+    private var wakeRegistered = false
+    private val wakeReceiver = object : BroadcastReceiver() {
+        override fun onReceive(c: Context?, i: Intent?) { if (running) finishByTimer() }
+    }
+
+    private fun registerWake() {
+        if (wakeRegistered) return
+        val f = IntentFilter().apply {
+            addAction(Intent.ACTION_SCREEN_ON)
+            addAction(Intent.ACTION_USER_PRESENT)
+            addAction(Intent.ACTION_TIME_CHANGED)
+            addAction(Intent.ACTION_TIMEZONE_CHANGED)
+        }
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) registerReceiver(wakeReceiver, f, RECEIVER_NOT_EXPORTED)
+            else registerReceiver(wakeReceiver, f)
+            wakeRegistered = true
+        } catch (_: Exception) {}
+    }
+
+    private fun unregisterWake() {
+        if (!wakeRegistered) return
+        try { unregisterReceiver(wakeReceiver) } catch (_: Exception) {}
+        wakeRegistered = false
+    }
+
+    private fun alarmIntent(): PendingIntent = PendingIntent.getService(
+        this, 2, Intent(this, KeepOnService::class.java).setAction(ACTION_CHECK),
+        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+    )
+
+    private fun setAlarm() {
+        val am = getSystemService(ALARM_SERVICE) as? AlarmManager ?: return
+        try { am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, endAt, alarmIntent()) } catch (_: Exception) {}
+    }
+
+    private fun cancelAlarm() {
+        val am = getSystemService(ALARM_SERVICE) as? AlarmManager ?: return
+        try { am.cancel(alarmIntent()) } catch (_: Exception) {}
     }
 
     private fun finishByTimer() {
@@ -259,6 +325,8 @@ class KeepOnService : Service() {
         endAt = 0L
         persistState()
         handler.removeCallbacks(finishRunnable)
+        cancelAlarm()
+        unregisterWake()
         removeOverlay()
         notificationManager.notify(NOTIFICATION_ID, buildCompletedNotification())
         stopForeground(STOP_FOREGROUND_DETACH)
@@ -276,6 +344,8 @@ class KeepOnService : Service() {
         endAt = 0L
         clearPersistedState()
         handler.removeCallbacksAndMessages(null)
+        cancelAlarm()
+        unregisterWake()
         removeOverlay()
         notificationManager.cancel(NOTIFICATION_ID)
         stopForeground(STOP_FOREGROUND_REMOVE)

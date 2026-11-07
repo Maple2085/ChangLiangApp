@@ -50,7 +50,7 @@ if [ "$BUMP" = "1" ]; then bump_version; fi
 read_version
 echo "构建版本：${VERSION_NAME}  (code ${VERSION_CODE})"
 
-cd "$WORK" || { echo "缺少工具目录 $WORK"; exit 1; }
+cd "$WORK" 2>/dev/null || { echo "缺少工具目录 $WORK，先运行：bash tools/setup-toolchain.sh"; exit 1; }
 need() { [ -f "$1" ] || { echo "缺少 $1"; exit 1; }; }
 need kotlin-compiler.jar
 need kotlin-stdlib.jar

@@ -115,6 +115,9 @@ class MainActivity : Activity(), IntroView.Host {
     private var pitOpen = false
     /** 调表板打开时表盘预览的值；null 表示不预览 */
     private var pitPreview: Int? = null
+    private var lastCheckAt = 0L
+    private var wasRunning = false
+    private var userStopped = false
 
     override val gauge get() = gaugeView
     override val titleView get() = title
@@ -358,6 +361,7 @@ class MainActivity : Activity(), IntroView.Host {
             flutter = true
         } else if (running) {
             val remain = (KeepOnService.endAt - System.currentTimeMillis()).coerceAtLeast(0L)
+            if (remain <= 0L) requestExpireCheck()
             val secs = (remain + 999L) / 1000L
             s.label = "STINT"
             s.value = fmt(secs)
@@ -384,6 +388,15 @@ class MainActivity : Activity(), IntroView.Host {
         gaugeView.setNeedle(targetNeedle(), animate = intro == null)
         gaugeView.setEffects(flutter, pulse)
         gaugeView.invalidate()
+
+        if (wasRunning && !running) {
+            if (!userStopped && !always) {
+                toast("STINT COMPLETE · 已自动熄火")
+                gaugeView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+            }
+            userStopped = false
+        }
+        wasRunning = running
 
         val key = "$running|$always|$overlayOk|$notifyOk|$gearIndex|${selectedMinutes()}"
         if (key != chromeKey) { chromeKey = key; applyChrome(running, always) }
@@ -504,7 +517,18 @@ class MainActivity : Activity(), IntroView.Host {
         }, 260L)
     }
 
+    /** 界面已到 0 但服务还没停：让服务立刻按真实时间检查一次（最多每秒一次） */
+    private fun requestExpireCheck() {
+        val now = System.currentTimeMillis()
+        if (now - lastCheckAt < 1000L) return
+        lastCheckAt = now
+        try {
+            startService(Intent(this, KeepOnService::class.java).setAction(KeepOnService.ACTION_CHECK))
+        } catch (_: Exception) {}
+    }
+
     private fun stopKeepOn() {
+        userStopped = true
         startAttempt++
         stopService(Intent(this, KeepOnService::class.java))
         handler.postDelayed({ chromeKey = ""; render() }, 220L)

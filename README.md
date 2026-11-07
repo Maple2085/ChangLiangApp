@@ -2,8 +2,8 @@
 
 一个纯 Kotlin / 无第三方依赖的 Android 小工具。通过一个 **1×1 透明悬浮窗** 让屏幕保持点亮，切换到任何应用都有效；支持定时自动结束，适合系统息屏上限只有 10 分钟、但需要长时间亮屏的场景。
 
-- 版本：**1.1.3**（versionCode 7）· 黑红赛车仪表盘 + 自定义挡
-- 安装包：[下载 1.1.3 APK](https://github.com/Maple2085/ChangLiangApp/releases/download/v1.1.3/ChangLiang.apk)（[查看全部 Releases](https://github.com/Maple2085/ChangLiangApp/releases)）
+- 版本：**1.1.4**（versionCode 8）· 黑红赛车仪表盘 + 自定义挡
+- 安装包：[下载 1.1.4 APK](https://github.com/Maple2085/ChangLiangApp/releases/download/v1.1.4/ChangLiang.apk)（[查看全部 Releases](https://github.com/Maple2085/ChangLiangApp/releases)）
 - 安装环境：Android 8.0+（minSdk 26）
 - 用户界面：黑红转速表、挡位条、点火键、赛前检查灯；首次打开播放入场动画
 
@@ -58,6 +58,7 @@
 - 只负责「保持点亮」，不修改系统休眠时间，不申请 WAKE_LOCK。
 - 停止或到点后移除悬浮窗，屏幕马上回到系统原本的休眠策略。
 - 前台服务让进程在切换应用后继续存活；从最近任务划掉应用也不会停止常亮。
+- 到点熄火有三重保险：醒着时每 10 秒按真实时间巡检；亮屏 / 解锁 / 改时间时立即检查；到点由系统闹钟唤醒检查。单靠 `Handler.postDelayed` 会在 CPU 休眠时停摆，导致过点不熄火。
 - 应用被系统杀掉后会用 `START_STICKY` 尝试恢复；定时结束时间会持久化。
 
 ## 文件结构
@@ -78,7 +79,7 @@
 
 ## 构建
 
-复用 LyricGrab 的 `~/buildtest` 工具链（aapt / zipalign / apksigner / JDK 21 / kotlinc / d8）：
+工具链在 `~/buildtest`（aapt / zipalign / apksigner / JDK 21 / kotlinc / d8）。容器清理后 jar 会丢，先跑 `bash tools/setup-toolchain.sh` 重建：
 
 ```bash
 cd /sdcard/Code/ChangLiangApp
