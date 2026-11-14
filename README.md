@@ -2,8 +2,8 @@
 
 一个纯 Kotlin / 无第三方依赖的 Android 小工具。通过一个 **1×1 透明悬浮窗** 让屏幕保持点亮，切换到任何应用都有效；支持定时自动结束，适合系统息屏上限只有 10 分钟、但需要长时间亮屏的场景。
 
-- 版本：**1.1.4**（versionCode 8）· 黑红赛车仪表盘 + 自定义挡
-- 安装包：[下载 1.1.4 APK](https://github.com/Maple2085/ChangLiangApp/releases/download/v1.1.4/ChangLiang.apk)（[查看全部 Releases](https://github.com/Maple2085/ChangLiangApp/releases)）
+- 版本：**1.1.5**（versionCode 9）· 黑红赛车仪表盘 + 自定义挡
+- 安装包：[下载 1.1.5 APK](https://github.com/Maple2085/ChangLiangApp/releases/download/v1.1.5/ChangLiang.apk)（[查看全部 Releases](https://github.com/Maple2085/ChangLiangApp/releases)）
 - 安装环境：Android 8.0+（minSdk 26）
 - 用户界面：黑红转速表、挡位条、点火键、赛前检查灯；首次打开播放入场动画
 
@@ -72,7 +72,7 @@
 | `IntroView.kt` | 入场动画与无缝变形 |
 | `Controls.kt` | 挡位条（9 格）、点火键、开关、碳纤维背景 |
 | `RulerView.kt` | 调表板的刻度尺 |
-| `CrashLog.kt` | 崩溃写入 下载/DSH-Go/ChangLiang-crash.txt |
+| `CrashLog.kt` | 崩溃写入 下载/DSH-Go/ChangLiang/ChangLiang-crash.txt |
 | `res/layout/activity_main.xml` | 布局与设置面板 |
 | `tools/make-icon.py` | 生成图标预览（启动图标本身是矢量） |
 | `build-apk.sh` | 纯手机手工构建脚本 |
@@ -90,7 +90,7 @@ bash build-apk.sh --bump   # 交付构建，versionName +0.0.1、versionCode +1
 构建完成后：
 
 - 项目根目录：`ChangLiang.apk`
-- 自动复制到：`/sdcard/Download/DSH-Go/ChangLiang.apk`
+- 自动复制到：`/sdcard/Download/DSH-Go/ChangLiang/ChangLiang.apk`
 
 > 本项目使用 `targetSdk 33`：手机上的 aapt v0.2 只能稳定读取 platform-28 的资源表，target 34+ 需要声明前台服务类型，会引入平台资源兼容问题。Android 14+ 对 target 33 的应用不强制前台服务类型；核心悬浮窗与通知功能一致。
 

@@ -14,13 +14,13 @@ import java.util.Date
 import java.util.Locale
 
 /**
- * 把未捕获异常写到 下载/DSH-Go/ChangLiang-crash.txt。
+ * 把未捕获异常写到 下载/DSH-Go/ChangLiang/ChangLiang-crash.txt。
  * 目标设备是 Android 16，所以走 MediaStore，不需要存储权限。
  */
 object CrashLog {
     private const val TAG = "ChangLiangCrash"
     private const val FILE_NAME = "ChangLiang-crash.txt"
-    private const val RELATIVE_PATH = "Download/DSH-Go"
+    private const val RELATIVE_PATH = "Download/DSH-Go/ChangLiang"
 
     @Volatile
     var lastCrash: String? = null

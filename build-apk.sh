@@ -141,7 +141,7 @@ if ! unzip -lv "$OUT" resources.arsc | grep -q "Stored"; then
 fi
 echo "  权限与资源校验通过"
 
-DIST="/sdcard/Download/DSH-Go"
+DIST="/sdcard/Download/DSH-Go/ChangLiang"
 mkdir -p "$DIST"
 cp -f "$OUT" "$DIST/ChangLiang.apk"
 echo
